@@ -27,11 +27,9 @@ export const createOrder = (order) => async (dispatch, getState) => {
     dispatch({
       type: ORDER_CREATE_REQUEST,
     })
-
     const {
       userLogin: { userInfo },
     } = getState()
-
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +38,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.post(`/api/orders`, order, config)
-
+    
     dispatch({
       type: ORDER_CREATE_SUCCESS,
       payload: data,
@@ -49,6 +47,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       type: CART_CLEAR_ITEMS,
       payload: data,
     })
+
     localStorage.removeItem('cartItems')
   } catch (error) {
     const message =
@@ -80,9 +79,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-
     const { data } = await axios.get(`/api/orders/${id}`, config)
-
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
       payload: data,
@@ -121,7 +118,6 @@ export const payOrder = (orderId, paymentResult) => async (
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-
     const { data } = await axios.put(
       `/api/orders/${orderId}/pay`,
       paymentResult,

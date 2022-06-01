@@ -18,12 +18,11 @@ import {
 
 const OrderScreen = ({ match, history }) => {
   const orderId = match.params.id
-
   const [sdkReady, setSdkReady] = useState(false)
-
   const dispatch = useDispatch()
 
   const orderDetails = useSelector((state) => state.orderDetails)
+  console.log(orderDetails)
   const { order, loading, error } = orderDetails
 
   const orderPay = useSelector((state) => state.orderPay)
@@ -195,7 +194,7 @@ const OrderScreen = ({ match, history }) => {
                   <Col>Rs {order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {!order.isPaid && (
+              {!order.isPaid && order.paymentMethod==="PayPal" && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {!sdkReady ? (
@@ -208,6 +207,12 @@ const OrderScreen = ({ match, history }) => {
                   )}
                 </ListGroup.Item>
               )}
+              {/* {
+                order.paymentMethod === "Cash On Delivery" &&
+                <button
+                  onClick={()=>history.push('/profile/')}
+                >Order Now</button>
+              } */}
               {loadingDeliver && <Loader />}
               {userInfo &&
                 userInfo.isAdmin &&
